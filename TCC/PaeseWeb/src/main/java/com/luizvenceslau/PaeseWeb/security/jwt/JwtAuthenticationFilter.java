@@ -1,16 +1,27 @@
 package com.luizvenceslau.PaeseWeb.security.jwt;
 
-import com.luizvenceslau.PaeseWeb.security.MyCustomUserDetailsService;
+import com.luizvenceslau.PaeseWeb.security.UserAuthenticatedService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final MyCustomUserDetailsService myCustomUserDetailsService;
+    private final UserAuthenticatedService userAuthenticatedService;
 
-    public JwtAuthenticationFilter(JwtService jwtService, MyCustomUserDetailsService myCustomUserDetailsService){
+    public JwtAuthenticationFilter(JwtService jwtService, UserAuthenticatedService userAuthenticatedService){
         this.jwtService = jwtService;
-        this.myCustomUserDetailsService = myCustomUserDetailsService;
+        this.userAuthenticatedService = userAuthenticatedService;
     }
 
     @Override
@@ -31,11 +42,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         username = jwtService.extractUsername(jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            var userDetails = userDetailsService.loadUserByUsername(username);
+            var myCustomUserDetails = userAuthenticatedService.loadUserByUsername(username);
 
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+            if (jwtService.isTokenValid(jwt, myCustomUserDetails)) {
                 var authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
+                        myCustomUserDetails, null, myCustomUserDetails.getAuthorities()
                 );
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
