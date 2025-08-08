@@ -15,7 +15,8 @@ spring:
 application:
   security:
     jwt:
-      secret-key: ${JWT_SECRET}
+      private-key-path: classpath:app.key
+      public-key-path: classpath:app.pub
       expiration: ${SECRET_EXPIRATION}
       refresh-token:
         expiration: ${RF_SECRET_EXPIRATION}

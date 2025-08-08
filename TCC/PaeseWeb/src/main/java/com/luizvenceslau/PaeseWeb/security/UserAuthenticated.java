@@ -1,12 +1,18 @@
 package com.luizvenceslau.PaeseWeb.security;
 
+import com.luizvenceslau.PaeseWeb.model.entities.User;
 import com.luizvenceslau.PaeseWeb.model.entities.UserRole;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-public class MyCustomUserDetails implements UserDetails {
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+public class UserAuthenticated implements UserDetails {
 
     private final User user;
 
-    public MyCustomUserDetails(User user) {
+    public UserAuthenticated(User user) {
         this.user = user;
     }
 
