@@ -1,21 +1,54 @@
 package com.luizvenceslau.PaeseWeb.security.jwt;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import com.luizvenceslau.PaeseWeb.security.MyCustomUserDetails;
+import com.luizvenceslau.PaeseWeb.security.UserAuthenticated;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
 
-    @Value("${security.jwt.secret}")
-    private String SECRET_KEY;
+    private final JwtEncoder encoder;
+    private final JwtDecoder decoder;
 
     @Value("${security.jwt.expiration-ms}")
     private Long EXPIRATION_TIME;
 
-    private key getSigningKey(){
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    public JwtService(JwtEncoder encoder, JwtDecoder decoder) {
+        this.encoder = encoder;
+        this.decoder = decoder;
     }
+
+    public String generateToken(Authentication authentication){
+        Instant now = Instant.now();
+        String scopes = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(""));
+        var claims = JwtClaimsSet.builder()
+                .issuer("PaeseWeb")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(EXPIRATION_TIME))
+                .subject(authentication.getName())
+                .claim("scope", scopes)
+                .build();
+        return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
@@ -30,20 +63,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(MyCustomUserDetails myCustomUserDetails){
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, myCustomUserDetails.getUsername());
-    }
 
-    private String createToken(Map<String, Object> claims, String subject){
-        return Jwts.buider()
-        .setClaims(claims)
-        .setSubject(subject)
-        .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-        .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-        .compact();
-    }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
