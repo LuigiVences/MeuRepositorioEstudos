@@ -19,6 +19,8 @@ target/
 *.iml
 *.ipr
 *.env
+*.app.key
+*.app.pub
 
 ### NetBeans ###
 /nbproject/private/
@@ -32,3 +34,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/app.key
+/src/main/resources/app.pub
