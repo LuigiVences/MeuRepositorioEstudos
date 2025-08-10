@@ -1,18 +1,11 @@
 package com.luizvenceslau.PaeseWeb.security.jwt;
 
 import java.time.Instant;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.luizvenceslau.PaeseWeb.security.UserAuthenticated;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -25,8 +18,8 @@ public class JwtService {
     private final JwtEncoder encoder;
     private final JwtDecoder decoder;
 
-    @Value("${security.jwt.expiration-ms}")
-    private Long EXPIRATION_TIME;
+    @Value("${EXPIRATION}")
+    private Long EXPIRATION;
 
     public JwtService(JwtEncoder encoder, JwtDecoder decoder) {
         this.encoder = encoder;
@@ -41,7 +34,7 @@ public class JwtService {
         var claims = JwtClaimsSet.builder()
                 .issuer("PaeseWeb")
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(EXPIRATION_TIME))
+                .expiresAt(now.plusSeconds(EXPIRATION))
                 .subject(authentication.getName())
                 .claim("scope", scopes)
                 .build();
