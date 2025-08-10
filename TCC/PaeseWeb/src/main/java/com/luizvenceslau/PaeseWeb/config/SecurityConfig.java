@@ -24,10 +24,10 @@ import java.security.interfaces.RSAPublicKey;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Value("${security.jwt.public-key-path}")
+    @Value("${application.security.jwt.public-key-path}")
     private RSAPublicKey key;
 
-    @Value("${security.private-key-path}")
+    @Value("${application.security.jwt.private-key-path}")
     private RSAPrivateKey priv;
 
     @Bean
