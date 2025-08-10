@@ -9,7 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
@@ -22,10 +22,10 @@ public abstract class BasicAttributes {
     @Setter(AccessLevel.PROTECTED)
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
-    protected Instant createdAt;
+    protected LocalDateTime createdAt;
 
     @Column(name = "deactivated_at")
-    protected Instant deactivatedAt;
+    protected LocalDateTime deactivatedAt;
 
     @Setter(AccessLevel.PROTECTED)
     @JsonIgnore
@@ -47,7 +47,7 @@ public abstract class BasicAttributes {
 
     public void deactivation(){
         this.active = false;
-        this.deactivatedAt = Instant.now();
+        this.deactivatedAt = LocalDateTime.now();
     }
 
 }
