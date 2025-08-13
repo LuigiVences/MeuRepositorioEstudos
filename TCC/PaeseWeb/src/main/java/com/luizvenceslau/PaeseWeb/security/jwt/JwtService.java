@@ -27,16 +27,27 @@ public class JwtService {
     }
 
     public String generateToken(Authentication authentication){
+
         Instant now = Instant.now();
-        String scopes = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(""));
+        var user = (UserAuthenticated) authentication.getPrincipal();
+
+        String roles = userAuth.getAuthorities().stream()
+            .filter(auth -> auth.getAuthority().startsWith("ROLE_"))
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(" "));
+
+        String privileges = userAuth.getAuthorities().stream()
+            .filter(auth -> !auth.getAuthority().startsWith("ROLE_"))
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(" "));
+
         var claims = JwtClaimsSet.builder()
                 .issuer("PaeseWeb")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(EXPIRATION))
                 .subject(authentication.getName())
-                .claim("scope", scopes)
+                .claim("roles", roles)
+                .claim("privileges", privileges)
                 .build();
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
