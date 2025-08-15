@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UserAuthenticated implements UserDetails {
 
@@ -21,7 +22,13 @@ public class UserAuthenticated implements UserDetails {
         return user.getUserRoles()
                 .stream()
                 .filter(UserRole::isActive)
-                .map(UserRole::getRole)
+                .flatMap(userRole -> {
+                    Role role = userRole.getRole();
+                    Stream<GrantedAuthority> roleAuth = Stream.of(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+                    Stream<GrantedAuthority> privilegeAuth = role.getPrivileges().stream()
+                            .map(privilege -> new SimpleGrantedAuthority(privilege.getName()));
+                    return Stream.concat(roleAuth, privilegeAuth);
+                })
                 .collect(Collectors.toSet());
     }
 

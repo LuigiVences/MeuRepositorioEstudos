@@ -13,8 +13,8 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("authenticate")
-    public String authenticate(Authentication authentication) {
-        return authenticationService.authenticate(authentication);
+    @PostMapping("/authenticate")
+    public String authenticate(@RequestBody @Valid LoginRequest loginRequest) {
+        return authenticationService.authenticate(loginRequest.getEmail(), loginRequest.getSenha());
     }
 }
