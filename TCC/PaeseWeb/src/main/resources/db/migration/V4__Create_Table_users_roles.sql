@@ -11,7 +11,7 @@ CONSTRAINT pk_users_roles PRIMARY KEY(id),
 CONSTRAINT fk_users_roles_user_id FOREIGN KEY(user_id) REFERENCES users(id),
 CONSTRAINT fk_users_roles_role_id FOREIGN KEY(role_id) REFERENCES roles(id),
 CONSTRAINT uq_user_role UNIQUE(user_id, role_id),
-CONSTRAINT fk_granted_by FOREIGN KEY(granted_by) REFERENCES users(id),
-CONSTRAINT fk_revoked_by FOREIGN KEY(revoked_by) REFERENCES users(id)
+CONSTRAINT fk_granted_by FOREIGN KEY(granted_by_id) REFERENCES users(id),
+CONSTRAINT fk_revoked_by FOREIGN KEY(revoked_by_id) REFERENCES users(id)
 
 );

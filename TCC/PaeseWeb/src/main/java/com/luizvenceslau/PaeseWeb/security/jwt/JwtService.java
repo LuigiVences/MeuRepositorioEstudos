@@ -3,6 +3,7 @@ package com.luizvenceslau.PaeseWeb.security.jwt;
 import java.time.Instant;
 import java.util.stream.Collectors;
 
+import com.luizvenceslau.PaeseWeb.security.UserAuthenticated;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,12 +32,12 @@ public class JwtService {
         Instant now = Instant.now();
         var user = (UserAuthenticated) authentication.getPrincipal();
 
-        String roles = userAuth.getAuthorities().stream()
+        String roles = user.getAuthorities().stream()
             .filter(auth -> auth.getAuthority().startsWith("ROLE_"))
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(" "));
 
-        String privileges = userAuth.getAuthorities().stream()
+        String privileges = user.getAuthorities().stream()
             .filter(auth -> !auth.getAuthority().startsWith("ROLE_"))
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(" "));

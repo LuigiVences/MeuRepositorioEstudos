@@ -1,4 +1,4 @@
-package com.luizvenceslau.PaeseWeb.login.dto;
+package com.luizvenceslau.PaeseWeb.auth.dto;
 
 public record LoginResponse(
 

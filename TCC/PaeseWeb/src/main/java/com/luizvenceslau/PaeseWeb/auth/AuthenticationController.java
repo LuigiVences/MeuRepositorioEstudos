@@ -1,8 +1,12 @@
 package com.luizvenceslau.PaeseWeb.auth;
 
-import org.springframework.security.core.Authentication;
+import com.luizvenceslau.PaeseWeb.auth.dto.LoginRequest;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.naming.AuthenticationException;
 
 @RestController
 public class AuthenticationController {
@@ -14,7 +18,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public String authenticate(@RequestBody @Valid LoginRequest loginRequest) {
-        return authenticationService.authenticate(loginRequest.getEmail(), loginRequest.getSenha());
+    public String authenticate(@RequestBody @Valid LoginRequest loginRequest) throws AuthenticationException {
+        return authenticationService.authenticate(loginRequest.email(), loginRequest.password());
     }
 }
