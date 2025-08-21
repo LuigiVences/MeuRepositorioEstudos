@@ -24,16 +24,7 @@ public class AuthenticationController {
     */
 
     @GetMapping("/login")
-    public String login(@RequestParam(value = "error", required = false) String error,
-                        @RequestParam(value = "logout", required = false) String logout,
-                        Model model) {
-
-        if (error != null) {
-            model.addAttribute("errorMessage", "Usuário ou senha inválidos.");
-        }
-        if (logout != null) {
-            model.addAttribute("successMessage", "Você saiu do sistema com sucesso.");
-        }
+    public String login() {
 
         return "authentication/login";
     }
