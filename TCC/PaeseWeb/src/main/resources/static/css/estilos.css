@@ -1,0 +1,30 @@
+/* Altura total da página, responsiva */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        /* Container flexível para centralizar verticalmente */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Conteúdo do login ocupa espaço restante e centraliza */
+        .login-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem; /* Espaço interno responsivo */
+        }
+
+        /* Card do formulário */
+        .login-card {
+            width: 100%;
+            max-width: 400px; /* Máximo em telas grandes */
+            padding: 1.5rem;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
