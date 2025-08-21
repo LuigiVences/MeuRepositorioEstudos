@@ -11,9 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Esconde automaticamente após 5 segundos
     setTimeout(hideAlerts, 5000);
 
-    // Esconde quando o usuário digitar em qualquer input do formulário
+    // Esconde quando o usuário digitar em qualquer input
     if (loginForm) {
         const inputs = loginForm.querySelectorAll("input");
         inputs.forEach(input => input.addEventListener("input", hideAlerts));
     }
 });
+
+
