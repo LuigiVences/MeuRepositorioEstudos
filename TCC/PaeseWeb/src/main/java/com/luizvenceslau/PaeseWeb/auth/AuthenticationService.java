@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
 
+    /*
+
+    Classe não será usada pois a autenticação não será com JWT
+
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-
 
     public AuthenticationService(JwtService jwtService, AuthenticationManager authenticationManager) {
         this.jwtService = jwtService;
@@ -25,4 +28,6 @@ public class AuthenticationService {
         return jwtService.generateToken(authentication);
         
     }
+
+     */
 }

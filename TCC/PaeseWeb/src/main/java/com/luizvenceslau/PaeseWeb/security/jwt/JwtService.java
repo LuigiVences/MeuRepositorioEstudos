@@ -13,8 +13,14 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class JwtService {
+
+
+ /*
+
+    Classe não será usada pois a authenticação nao vai ser com jwt
 
     private final JwtEncoder encoder;
     private final JwtDecoder decoder;
@@ -53,7 +59,7 @@ public class JwtService {
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-
+    */
 
 
 }
