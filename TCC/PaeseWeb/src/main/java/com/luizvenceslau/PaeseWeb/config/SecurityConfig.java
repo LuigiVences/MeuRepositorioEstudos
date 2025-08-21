@@ -1,25 +1,15 @@
 package com.luizvenceslau.PaeseWeb.config;
 
+import com.luizvenceslau.PaeseWeb.exception.CustomAuthenticationFailureHandler;
+import com.luizvenceslau.PaeseWeb.exception.CustomLogoutSucessHandler;
 import com.luizvenceslau.PaeseWeb.security.UserAuthenticatedService;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.interfaces.RSAPrivateKey;
@@ -33,6 +23,23 @@ public class SecurityConfig {
 
     @Value("${application.security.jwt.private-key-path}")
     private RSAPrivateKey priv;
+
+    private final UserAuthenticatedService userAuthenticatedService;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final CustomLogoutSucessHandler customLogoutSucessHandler;
+
+    public SecurityConfig(UserAuthenticatedService userAuthenticatedService,
+                          CustomAuthenticationFailureHandler customAuthenticationFailureHandler,
+                          CustomLogoutSucessHandler customLogoutSucessHandler) {
+        this.userAuthenticatedService = userAuthenticatedService;
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+        this.customLogoutSucessHandler = customLogoutSucessHandler;
+
+    }
+
+    /*
+
+    Bean para o caso de transformar a aplicação em uma API Rest, com autenticação via JWT
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -48,15 +55,44 @@ public class SecurityConfig {
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
         return http.build();
     }
+     */
 
     @Bean
-    public AuthenticationManager authenticationManager(UserAuthenticatedService userAuthenticatedService,
-                                                       PasswordEncoder passwordEncoder){
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userAuthenticatedService);
-        authProvider.setPasswordEncoder(passwordEncoder);
-        return new ProviderManager(authProvider);
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/login", "/password", "/css/**", "/js/**", "/assets/**")
+                        .permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/perform_login")
+                        .failureHandler(customAuthenticationFailureHandler)
+                        .defaultSuccessUrl("/home", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler(customLogoutSucessHandler)
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
+                .userDetailsService(userAuthenticatedService);
+        return http.build();
+
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    /*
+
+    Os Beans abaixo só serão usados caso o sistema venha utilizar JWT
 
     @Bean
     JwtDecoder jwtDecoder(){
@@ -70,9 +106,6 @@ public class SecurityConfig {
         return new NimbusJwtEncoder(jwks);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+     */
 
 }
