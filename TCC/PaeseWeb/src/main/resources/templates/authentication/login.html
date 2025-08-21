@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="/css/estilos.css">
 
 </head>
-<body>
+<body class="login-page">
 <div class="login-container">
 
-    <header class="bg-primary text-white text-center py-3">
+    <header class="header-login">
         <h1>Sistema de Controle de Registro dos Ônibus do PAESE</h1>
     </header>
 
@@ -22,11 +22,11 @@
                 <h5 class="card-title text-center mb-4">Login</h5>
                 <form method="post" action="#" th:action="@{/perform_login}" id="loginForm">
 
-                    <div th:if="${errorMessage}" class="alert alert-danger" role="alert" id="errorAlert"
-                         th:text="${errorMessage}"></div>
+                    <div th:if="${param.error}" class="alert alert-danger" role="alert" id="errorAlert"
+                         th:text="${param.error}"></div>
 
-                    <div th:if="${sucessMessage}" class="alert alert-success" role="alert" id="sucessAlert"
-                         th:text="${sucessMessage}"></div>
+                    <div class="alert alert-success" role="alert" id="successAlert"
+                         th:if="${param.logout}" th:text="${param.logout}"></div>
 
                     <div class="mb-3">
                         <label for="username" class="form-label">Login</label>
@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <footer class="bg-light text-center py-3">
+    <footer class="footer">
         <small>© 2025 Sistema Paese Web - TCC LFV e MFC.</small>
     </footer>
 </div>
