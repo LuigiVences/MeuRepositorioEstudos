@@ -77,7 +77,7 @@ public class User {
     private List<OrganizationalUnit> organizationalUnitsDeactivatedBy = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
 
 
