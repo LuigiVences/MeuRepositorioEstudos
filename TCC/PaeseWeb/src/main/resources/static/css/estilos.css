@@ -1,53 +1,60 @@
-    /* Altura total da página, responsiva */
-    html, body{
-        margin: 0;
-        padding: 0
-        font-family: Arial, Helvetica, sans-serif;
-    }
-
+    /* Aplica no body */
     .login-page {
-        height: 100%;
+        min-height: 100vh;            /* altura total da tela */
+        display: flex;
+        justify-content: center;      /* centraliza horizontal */
+        align-items: center;          /* centraliza vertical */
+        background-color: #f8f9fa;    /* cinza claro */
         margin: 0;
+        padding: 20px;
     }
 
-    /* Container flexível para centralizar verticalmente */
+    /* Container do login */
     .login-container {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Conteúdo do login ocupa espaço restante e centraliza */
-    .login-content {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 1rem; /* Espaço interno responsivo */
-    }
-
-    /* Card do formulário */
-    .login-card {
         width: 100%;
-        max-width: 400px; /* Máximo em telas grandes */
-        padding: 1.5rem;
-        box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        border-radius: 8px;
+        max-width: 420px;             /* largura máxima do formulário */
     }
 
+    /* Card do login */
+    .login-card {
+        border: none;
+        border-radius: 12px;          /* bordas arredondadas */
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15); /* sombra leve */
+        background: #fff;
+        padding: 20px;
+    }
+
+    /* Cabeçalho do login */
+    .header-login {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .header-login h1 {
+        font-size: 1.25rem;
+        color: #343a40;
+    }
+
+    /* Botão */
+    .login-card button {
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    /* Alertas de erro e sucesso */
+    .alert {
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+
+    /* Rodapé */
     .footer {
-        background-color: #343a40;
-        color: white;
+        background-color: #343a40;  /* mesmo fundo escuro */
+        color: white;               /* texto branco */
         text-align: center;
         padding: 10px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
     }
-
-    .header-login {
-        background-color: #343a40;
-        color: white;
-        text-align: center;
-        padding: 1rem 0; /* equivalente ao py-3 do Bootstrap */
-    }
-
-
-
