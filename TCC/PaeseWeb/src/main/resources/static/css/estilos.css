@@ -48,13 +48,15 @@
     }
 
     /* Rodapé */
-    .footer {
-        background-color: #343a40;  /* mesmo fundo escuro */
-        color: white;               /* texto branco */
-        text-align: center;
-        padding: 10px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-    }
+   .footer {
+       background-color: #212529;
+       color: white;
+       text-align: center;
+       padding: 10px;
+       height: 56px;
+       position: fixed;
+       bottom: 0;
+       left: 0;
+       width: 100%;
+       z-index: 1200;
+   }
