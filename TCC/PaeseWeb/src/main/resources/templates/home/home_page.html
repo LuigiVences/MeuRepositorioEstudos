@@ -7,57 +7,79 @@
     <link rel="stylesheet" th:href="@{/css/home_page.css}">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
 </head>
 <body>
 
-<!-- Botão de toggle para mobile -->
-<button class="btn btn-dark sidebar-toggle" onclick="toggleSidebar()">
+<!-- Botão de toggle (mobile) -->
+<button class="btn btn-dark sidebar-toggle d-lg-none" onclick="toggleSidebar()">
     <i class="bi bi-list"></i>
 </button>
 
-<!-- Menu Lateral -->
+<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-    <h4 class="text-center">TCC</h4>
-    <hr class="text-secondary">
+    <h4 class="text-center">Menu</h4>
 
-    <!-- Organização (protegida) -->
-    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+
+    <!-- Função -->
+    <div th:if="${#authorization.expression('hasRole(''ROLE_DEV'')')}">
+        <a href="#" onclick="toggleSubmenu('funcSubmenu')">
+            <i class="bi bi-people"></i> Função de Usuário <i class="bi bi-caret-down ms-auto"></i>
+        </a>
+        <div id="funcSubmenu" class="submenu flex-column">
+            <a th:href="@{/role/new}"><i class="bi bi-plus-circle"></i> Criar Novo</a>
+            <a th:href="@{/role/edit}"><i class="bi bi-pencil-square"></i> Editar</a>
+            <a th:href="@{/role/list}"><i class="bi bi-list-ul"></i> Listar</a>
+        </div>
+    </div>
+
+    <!-- Organização -->
+    <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_DEV'')')}">
         <a href="#" onclick="toggleSubmenu('orgSubmenu')">
             <i class="bi bi-building"></i> Organização <i class="bi bi-caret-down ms-auto"></i>
         </a>
         <div id="orgSubmenu" class="submenu flex-column">
-            <a th:href="@{/organizacao/criar}"><i class="bi bi-plus-circle"></i> Criar Novo</a>
-            <a th:href="@{/organizacao/editar}"><i class="bi bi-pencil-square"></i> Editar</a>
-            <a th:href="@{/organizacao/listar}"><i class="bi bi-list-ul"></i> Listar</a>
+            <a th:href="@{/organizational_unit/new}"><i class="bi bi-plus-circle"></i> Criar Novo</a>
+            <a th:href="@{/organizational_unit/edit}"><i class="bi bi-pencil-square"></i> Editar</a>
+            <a th:href="@{/organizational_unit/list}"><i class="bi bi-list-ul"></i> Listar</a>
         </div>
     </div>
 
-    <!-- Usuário (protegida) -->
-    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+    <!-- Privilégio -->
+    <div th:if="${#authorization.expression('hasRole(''ROLE_DEV'')')}">
+        <a href="#" onclick="toggleSubmenu('privilegeSubmenu')">
+            <i class="bi bi-key"></i> Privilégio de Usuário <i class="bi bi-caret-down ms-auto"></i>
+        </a>
+        <div id="privilegeSubmenu" class="submenu flex-column">
+            <a th:href="@{/privilege/new}"><i class="bi bi-plus-circle"></i> Criar Novo</a>
+            <a th:href="@{/privilege/edit}"><i class="bi bi-pencil-square"></i> Editar</a>
+            <a th:href="@{/privilege/list}"><i class="bi bi-list-ul"></i> Listar</a>
+        </div>
+    </div>
+
+    <!-- Usuário -->
+    <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_DEV'')')}">
         <a href="#" onclick="toggleSubmenu('userSubmenu')">
             <i class="bi bi-person"></i> Usuário <i class="bi bi-caret-down ms-auto"></i>
         </a>
         <div id="userSubmenu" class="submenu flex-column">
-            <a th:href="@{/usuario/criar}"><i class="bi bi-plus-circle"></i> Criar Novo</a>
-            <a th:href="@{/usuario/editar}"><i class="bi bi-pencil-square"></i> Editar</a>
-            <a th:href="@{/usuario/listar}"><i class="bi bi-list-ul"></i> Listar</a>
-            <a th:href="@{/usuario/vincular-organizacao}"><i class="bi bi-link-45deg"></i> Vincular Organização</a>
-            <a th:href="@{/usuario/atribuir-funcao}"><i class="bi bi-shield-lock"></i> Atribuir Função</a>
+            <a th:href="@{/user/new}"><i class="bi bi-plus-circle"></i> Criar Novo</a>
+            <a th:href="@{/user/edit}"><i class="bi bi-pencil-square"></i> Editar</a>
+            <a th:href="@{/user/list}"><i class="bi bi-list-ul"></i> Listar</a>
+            <a th:href="@{/user/organizational_unit}"><i class="bi bi-link-45deg"></i> Vincular Organização</a>
+            <a th:href="@{/user/role}"><i class="bi bi-shield-lock"></i> Atribuir Função</a>
         </div>
     </div>
 
-    <!-- Registro (aberto para todos) -->
+    <!-- Registro -->
     <a th:href="@{/registro}"><i class="bi bi-clock-history"></i> Registro</a>
 </div>
 
-<!-- Conteúdo principal + rodapé -->
+<!-- Área principal -->
 <div class="main-wrapper">
 
-    <!-- Barra superior -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <!-- Navbar (agora ocupa 100% da tela) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top shadow-sm">
         <div class="container-fluid justify-content-end">
-            <!-- Dropdown do usuário -->
             <div class="dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false">
@@ -81,17 +103,15 @@
         <h2>Sistema de Controle de Registro dos Ônibus do PAESE</h2>
         <p>Selecione uma opção no menu lateral para começar.</p>
     </div>
-
-    <!-- Rodapé -->
-    <footer class="footer">
-        <small>© 2025 Sistema Paese Web - TCC LFV e MFC.</small>
-    </footer>
 </div>
+
+<!-- Rodapé (fora do main-wrapper para largura total) -->
+<footer class="footer">
+    <small>© 2025 Sistema Paese Web - TCC LFV e MFC.</small>
+</footer>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/js/home_page.js}"></script>
-
 </body>
 </html>
-

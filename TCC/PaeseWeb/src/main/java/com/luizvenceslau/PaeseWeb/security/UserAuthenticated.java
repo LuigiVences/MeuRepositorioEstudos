@@ -18,7 +18,7 @@ public class UserAuthenticated implements UserDetails {
 
     public UserAuthenticated(User user) {
         this.user = user;
-        this.authorities = authorities;
+        this.authorities = buildAuthorities(user);
     }
 
     private Set<GrantedAuthority> buildAuthorities(User user){

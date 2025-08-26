@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Getter
 @Entity
+@Table(name = "privileges")
 public class Privilege extends BasicAttributes{
 
     @Setter
@@ -18,7 +19,7 @@ public class Privilege extends BasicAttributes{
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "privilege", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "privilege", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<RolePrivilege> rolePrivileges = new HashSet<>();
 
     public Privilege() {
