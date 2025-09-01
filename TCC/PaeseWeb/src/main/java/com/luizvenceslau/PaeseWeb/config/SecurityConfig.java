@@ -70,7 +70,7 @@ public class SecurityConfig {
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .failureHandler(customAuthenticationFailureHandler)
-                        .defaultSuccessUrl("/home", true)
+                        .defaultSuccessUrl("/menu", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
