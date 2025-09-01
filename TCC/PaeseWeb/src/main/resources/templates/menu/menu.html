@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Usuário</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/menu.css}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top shadow-sm">
+    <div class="container-fluid d-flex justify-content-between">
+
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/menu}">
+            <i class="bi bi-house-door"></i>
+        </a>
+
+        <div class="dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                <i class="bi bi-person-circle"></i> <span th:text="${#authentication.name}"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="dropdown-item">
+                            <i class="bi bi-box-arrow-right"></i> Sair
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Conteúdo principal -->
+<main class="d-flex flex-grow-1" style="margin-top: 56px; margin-bottom: 48px;">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h4 class="text-center">Menu</h4>
+
+        <!-- Função -->
+        <div th:if="${#authorization.expression('hasRole(''ROLE_DEV'')')}">
+            <a href="#" onclick="toggleSubmenu('funcSubmenu')">
+                <i class="bi bi-people me-2"></i> Função de Usuário <i class="bi bi-caret-down ms-auto"></i>
+            </a>
+            <div id="funcSubmenu" class="submenu flex-column">
+                <a th:href="@{/role/new}"><i class="bi bi-plus-circle me-2"></i> Criar Novo</a>
+                <a th:href="@{/role/edit}"><i class="bi bi-pencil-square me-2"></i> Editar</a>
+                <a th:href="@{/role/list}"><i class="bi bi-list-ul me-2"></i> Listar</a>
+            </div>
+        </div>
+
+        <!-- Organização -->
+        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_DEV'')')}">
+            <a href="#" onclick="toggleSubmenu('orgSubmenu')">
+                <i class="bi bi-building me-2"></i> Organização <i class="bi bi-caret-down ms-auto"></i>
+            </a>
+            <div id="orgSubmenu" class="submenu flex-column">
+                <a th:href="@{/organizational_unit/new}"><i class="bi bi-plus-circle me-2"></i> Criar Novo</a>
+                <a th:href="@{/organizational_unit/edit}"><i class="bi bi-pencil-square me-2"></i> Editar</a>
+                <a th:href="@{/organizational_unit/list}"><i class="bi bi-list-ul me-2"></i> Listar</a>
+            </div>
+        </div>
+
+        <!-- Privilégio -->
+        <div th:if="${#authorization.expression('hasRole(''ROLE_DEV'')')}">
+            <a href="#" onclick="toggleSubmenu('privilegeSubmenu')">
+                <i class="bi bi-key me-2"></i> Privilégio de Usuário <i class="bi bi-caret-down ms-auto"></i>
+            </a>
+            <div id="privilegeSubmenu" class="submenu flex-column">
+                <a th:href="@{/privilege/new}"><i class="bi bi-plus-circle me-2"></i> Criar Novo</a>
+                <a th:href="@{/privilege/edit}"><i class="bi bi-pencil-square me-2"></i> Editar</a>
+                <a th:href="@{/privilege/list}"><i class="bi bi-list-ul me-2"></i> Listar</a>
+            </div>
+        </div>
+
+        <!-- Usuário -->
+        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_DEV'')')}">
+            <a href="#" onclick="toggleSubmenu('userSubmenu')">
+                <i class="bi bi-person me-2"></i> Usuário <i class="bi bi-caret-down ms-auto"></i>
+            </a>
+            <div id="userSubmenu" class="submenu flex-column">
+                <a th:href="@{/user}"><i class="bi bi-plus-circle me-2"></i> Criar Novo</a>
+                <a th:href="@{/user/edit}"><i class="bi bi-pencil-square me-2"></i> Editar</a>
+                <a th:href="@{/user/list}"><i class="bi bi-list-ul me-2"></i> Listar</a>
+                <a th:href="@{/user/organizational_unit}"><i class="bi bi-link-45deg me-2"></i> Vincular Organização</a>
+                <a th:href="@{/user/role}"><i class="bi bi-shield-lock me-2"></i> Atribuir Função</a>
+            </div>
+        </div>
+
+        <!-- Registro -->
+        <a th:href="@{/registro}"><i class="bi bi-clock-history me-2"></i> Registro</a>
+    </div>
+
+    <!-- Área de conteúdo -->
+    <div class="content flex-grow-1 p-3 text-center">
+        <h2>Bem-vindo ao Sistema</h2>
+        <p>Escolha uma opção no menu.</p>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center border-top fixed-bottom shadow-sm">
+    <small>© 2025 Sistema Paese Web - TCC LFV e MFC.</small>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/create_user.js}"></script>
+<script src="/js/menu.js"></script>
+</body>
+</html>
