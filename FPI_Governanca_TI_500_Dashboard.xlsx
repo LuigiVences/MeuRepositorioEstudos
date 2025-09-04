@@ -1,0 +1,20 @@
+# Dados Fictícios de FPIs/KPIs de Governança de TI
+
+| ID | Nome do Indicador | Valor | Status | Categoria | Data |
+|----|-------------------|-------|--------|-----------|------|
+| 1  | Indicador 1      | 75    | Bom    | Categoria A | 2023-01-01 |
+| 2  | Indicador 2      | 50    | Médio  | Categoria B | 2023-01-01 |
+| 3  | Indicador 3      | 30    | Ruim   | Categoria A | 2023-01-01 |
+| ...| ...               | ...   | ...    | ...        | ...  |
+| 500| Indicador 500    | 85    | Bom    | Categoria C | 2023-01-01 |
+
+### Dashboard
+
+#### Gráficos
+- Gráfico de Barras para Status
+- Gráfico de Pizza para Categoria
+- Gráfico de Linhas para Evolução de Valores
+
+### Resumo Geral
+- KPIs Acima da Meta
+- KPIs Abaixo da Meta
