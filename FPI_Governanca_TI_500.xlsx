@@ -1,0 +1,12 @@
+Indicador, Descrição, Categoria, Valor Atual, Meta, Status, Observações
+Indicador 1, Descrição 1, Categoria A, 70, 80, Atingido, Observações 1
+Indicador 2, Descrição 2, Categoria B, 50, 60, Não Atingido, Observações 2
+Indicador 3, Descrição 3, Categoria A, 90, 100, Atingido, Observações 3
+Indicador 4, Descrição 4, Categoria C, 40, 50, Não Atingido, Observações 4
+Indicador 5, Descrição 5, Categoria B, 60, 70, Atingido, Observações 5
+Indicador 6, Descrição 6, Categoria A, 80, 90, Atingido, Observações 6
+Indicador 7, Descrição 7, Categoria C, 30, 40, Não Atingido, Observações 7
+Indicador 8, Descrição 8, Categoria B, 50, 50, Atingido, Observações 8
+Indicador 9, Descrição 9, Categoria A, 70, 80, Atingido, Observações 9
+Indicador 10, Descrição 10, Categoria C, 20, 30, Não Atingido, Observações 10
+... (continua até 500 linhas)
