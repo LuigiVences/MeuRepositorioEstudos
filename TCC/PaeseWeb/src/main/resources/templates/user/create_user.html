@@ -40,15 +40,15 @@
         <div class="card p-4 shadow mx-3 col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
             <h3 class="text-center mb-3">Cadastrar Novo Usuário</h3>
             <div id="alertPlaceHolder"></div>
-            <form th:action="@{/user/create}" method="post" id="userForm" novalidate>
+            <form th:action="@{/new}" method="post" id="userForm" novalidate th:object="${userDto}">
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Digite o nome" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Digite o nome" th:field="*{name}" required>
                     <div class="invalid-feedback">Por favor, insira o nome</div>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Digite o e-mail" required>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Digite o e-mail" th:field="*{email}" required>
                     <div class="invalid-feedback">Por favor, insira um e-mail válido</div>
                 </div>
                 <div class="d-flex justify-content-between">
