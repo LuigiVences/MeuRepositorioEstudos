@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
 @Getter
 @Entity
 @Table(name = "roles_privileges")
+@EntityListeners(AuditingEntityListener.class)
 public class RolePrivilege {
 
     @Id
