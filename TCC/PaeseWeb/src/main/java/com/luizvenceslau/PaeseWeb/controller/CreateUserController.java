@@ -20,27 +20,29 @@ public class CreateUserController {
     }
 
 
-    @GetMapping("/user")
+    @GetMapping("/user/new")
     public String showForm(Model model){
         model.addAttribute("userDto", new CreateUserDto(null, null));
         return "user/create_user";
     }
-    @PostMapping("/new")
+
+    @PostMapping("/user/new")
     public String createUser(@Valid @ModelAttribute("userDto") CreateUserDto userDto,
-                             BindingResult result, Model model){
+                             BindingResult result,
+                             Model model){
         if (result.hasErrors()){
-            return "/user/create_user";
+            return "user/create_user";
         }
 
         try {
             service.createUser(userDto);
-            model.addAttribute("sucessMessage", "usuário criado com sucesso!");
-            model.addAttribute("userDto", new CreateUserDto(null, null));
+            model.addAttribute("successMessage", "Usuário criado com sucesso!");
+            model.addAttribute("userDto", new CreateUserDto(null, null)); // limpa o form
         } catch (IllegalArgumentException e) {
             result.rejectValue("email", "error.userDto", e.getMessage());
-            return "/user/create_user";
         }
 
-        return "/user/create_user";
+        return "user/create_user";
     }
+
 }
