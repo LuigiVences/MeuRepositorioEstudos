@@ -1,5 +1,7 @@
+CREATE SEQUENCE IF NOT EXISTS org_unit_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE organizational_units(
-id SERIAL,
+id BIGINT DEFAULT nextval('org_unit_seq'),
 name VARCHAR(255) NOT NULL,
 parent_id INTEGER,
 type VARCHAR (70) NOT NULL,

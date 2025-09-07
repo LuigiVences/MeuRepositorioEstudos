@@ -1,5 +1,7 @@
+CREATE SEQUENCE IF NOT EXISTS user_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE users(
-id SERIAL,
+id BIGINT DEFAULT nextval('user_seq'),
 name VARCHAR (100) NOT NULL,
 email VARCHAR (100) NOT NULL,
 password_hash VARCHAR (100),

@@ -1,5 +1,7 @@
+CREATE SEQUENCE IF NOT EXISTS user_role_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE users_roles(
-id SERIAL,
+id BIGINT DEFAULT nextval('user_role_seq'),
 user_id INTEGER,
 role_id INTEGER,
 active BOOLEAN DEFAULT TRUE,

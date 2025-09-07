@@ -1,5 +1,7 @@
+CREATE SEQUENCE IF NOT EXISTS role_privilege_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE roles_privileges(
-id SERIAL,
+id BIGINT DEFAULT nextval('role_privilege_seq'),
 role_id INTEGER,
 privilege_id INTEGER,
 active BOOLEAN DEFAULT TRUE NOT NULL,
