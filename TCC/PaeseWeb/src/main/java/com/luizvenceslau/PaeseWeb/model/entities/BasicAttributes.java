@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BasicAttributes {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 
     @Setter(AccessLevel.PROTECTED)
