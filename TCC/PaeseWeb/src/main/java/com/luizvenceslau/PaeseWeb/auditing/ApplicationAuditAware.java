@@ -1,6 +1,7 @@
 package com.luizvenceslau.PaeseWeb.auditing;
 
 import com.luizvenceslau.PaeseWeb.model.entities.User;
+import com.luizvenceslau.PaeseWeb.security.UserAuthenticated;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,8 +26,8 @@ public class ApplicationAuditAware implements AuditorAware<User> {
 
         Object userPrincipal =  authentication.getPrincipal();
 
-        if (userPrincipal instanceof User user) {
-            return Optional.of(user);
+        if (userPrincipal instanceof UserAuthenticated userAuthenticated) {
+            return Optional.of(userAuthenticated.getUser());
         }
         return Optional.empty();
     }
