@@ -25,4 +25,10 @@ public class Privilege extends BasicAttributes{
     public Privilege() {
     }
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "privilege_seq")
+    @SequenceGenerator(name = "privilege_seq", sequenceName = "privilege_seq", allocationSize = 1)
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
 }
