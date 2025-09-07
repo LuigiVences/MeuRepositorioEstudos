@@ -16,7 +16,8 @@ import java.time.Instant;
 public class RolePrivilege {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_privilege_seq")
+    @SequenceGenerator(name = "role_privilege_seq", sequenceName = "role_privilege_seq", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
