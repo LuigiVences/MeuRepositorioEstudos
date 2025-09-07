@@ -40,5 +40,10 @@ public class OrganizationalUnit extends BasicAttributes{
     public OrganizationalUnit() {
     }
 
-
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "org_unit_seq")
+    @SequenceGenerator(name = "org_unit_seq", sequenceName = "org_unit_seq", allocationSize = 1)
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
 }
