@@ -35,4 +35,11 @@ public class Role extends BasicAttributes implements GrantedAuthority {
     public String getAuthority() {
         return name;
     }
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
+    @SequenceGenerator(name = "role_seq", sequenceName = "role_seq", allocationSize = 1)
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
 }
