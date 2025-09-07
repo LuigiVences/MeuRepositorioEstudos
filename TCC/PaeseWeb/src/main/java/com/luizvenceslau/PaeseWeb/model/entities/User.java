@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -19,7 +19,8 @@ import java.util.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Long id;
 
     @Setter
@@ -39,7 +40,6 @@ public class User {
     private boolean passwordInitialized = false;
 
     @Setter(AccessLevel.PROTECTED)
-    @LastModifiedDate
     @Column(name = "last_password_change_at")
     private LocalDateTime lastPasswordChangeAt;
 
@@ -92,6 +92,10 @@ public class User {
     public void activation(){
         this.active = true;
         this.passwordInitialized = true;
+    }
+
+    public void setPassword(String password, PasswordEncoder passwordEncoder){
+        this.passwordHash = passwordEncoder.encode(password);
     }
 
 }
